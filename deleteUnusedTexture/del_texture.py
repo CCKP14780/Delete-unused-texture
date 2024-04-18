@@ -1,9 +1,7 @@
 import maya.cmds as cmds
-from pprint import pprint
 
 def get_file_node():
     Shader = cmds.ls(sl=True)
-    print(Shader)
     for i in Shader:
         try:
             con = cmds.listConnections('%s.outColor' % i)
@@ -17,7 +15,13 @@ def get_file_node():
                 pass
 
         except:
-            print(f'GARBAGE SHADER : {i}')
-            cmds.delete(i)
-            continue
+            if i == 'lambert1' or i == 'particleCloud1' or i == 'standardSurface1':
+                pass
+            
+            else:
+                print(f'GARBAGE SHADER : {i}')
+                try:
+                    cmds.delete(i)
+                except:
+                    print(f'Default or Reference Shader {i}. Deletion withdrawn')
 get_file_node()
